@@ -25,19 +25,19 @@ public class PortfolioAllocatorDP {
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
         allocateInvestment(totalInvestment);
-
+printDPTables();
         /* 
         DPTables(totalInvestment);
         generateAllocation(totalInvestment, );
         List<Integer> bestAllocation = backtracking(totalInvestment);
         printOptimalAllocation(bestAllocation);*/
     }
-    /* 
+    
     private static void printDPTables() {
         System.out.println("DP Table:");
         for (int i = 0; i < DP.length; i++) {
             for (int j = 0; j < DP[i].length; j++) {
-                System.out.printf("%5.2f ", DP[i][j]);
+                System.out.printf("%5.4f ", DP[i][j]);
             }
             System.out.println();
         }
@@ -45,12 +45,19 @@ public class PortfolioAllocatorDP {
         System.out.println("\nriskDP Table:");
         for (int i = 0; i < riskDP.length; i++) {
             for (int j = 0; j < riskDP[i].length; j++) {
-                System.out.printf("%5.2f ", riskDP[i][j]);
+                System.out.printf("%5.4f ", riskDP[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println("\nchoice Table:");
+        for (int i = 0; i < choiceDP.length; i++) {
+            for (int j = 0; j < choiceDP[i].length; j++) {
+                System.out.printf("%5d ", choiceDP[i][j]);
             }
             System.out.println();
         }
     }
-    */
+    
 
    /*  private static void DPTables(int totalInvestment) {
         DP = new double[assetList.size() + 1][totalInvestment + 1];
@@ -83,7 +90,13 @@ public class PortfolioAllocatorDP {
                     // calculate potential return and risk with this quantity
                     double potReturn = DP[i - 1][j - quantity * 1] + addReturn;
                     double potRisk = riskDP[i - 1][j - quantity * 1] + addRisk;
-    
+                    if(asset.id.equalsIgnoreCase("GOOGL"))
+                    if (quantity == 14 || quantity == 16|| quantity == 12)  {
+                        System.out.println("Considering " + quantity + " units for GOOGL at investment level " + j);
+                        System.out.println("potReturn: " + potReturn + ", potRisk: " + potRisk);
+                        System.out.println("DP[i][j]: " + DP[i][j] + ", riskDP[i][j]: " + riskDP[i][j]);
+                    }
+        
                     // update tables if this choice improves return without exceeding risk tolerance
                     if (potRisk <= riskTolerance && potReturn > DP[i][j]) {
                         DP[i][j] = potReturn; // update return table
@@ -101,6 +114,7 @@ public class PortfolioAllocatorDP {
         for (int i = assetList.size(); i > 0; i--) {
             int quantity = choiceDP[i][remInv]; // get chosen quantity for this asset
             optimalAllocation.add(0, quantity); // add it to optimal allocation
+            System.out.println("Backtracking - Asset: " + assetList.get(i - 1).id + ", Chosen Quantity: " + quantity + ", Remaining Investment: " + remInv);
             remInv -= quantity * 1; // reduce remaining investment
         }
     
