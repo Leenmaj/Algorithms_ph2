@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-//commented out methods are past attempts 
+
 public class PortfolioAllocatorDP {
     static List<Asset> assetList = new ArrayList<>();
     static double[][] DP; // table for returns
@@ -26,11 +26,7 @@ public class PortfolioAllocatorDP {
         riskTolerance = input.nextDouble();
         allocateInvestment(totalInvestment);
 printDPTables();
-        /* 
-        DPTables(totalInvestment);
-        generateAllocation(totalInvestment, );
-        List<Integer> bestAllocation = backtracking(totalInvestment);
-        printOptimalAllocation(bestAllocation);*/
+  
     }
     
     private static void printDPTables() {
@@ -59,16 +55,7 @@ printDPTables();
     }
     
 
-   /*  private static void DPTables(int totalInvestment) {
-        DP = new double[assetList.size() + 1][totalInvestment + 1];
-        riskDP = new double[assetList.size() + 1][totalInvestment + 1];
-       
-        for (int i = 0; i <= assetList.size(); i++) {
-            Arrays.fill(DP[i], 0); //  with 0
-            Arrays.fill(riskDP[i], 0); //  with 0
-        }
-       // printDPTables();
-    }*/
+
     public static void allocateInvestment(int totalInvestment) {
         // initialize dp tables for returns, risks, and choices
         DP = new double[assetList.size() + 1][totalInvestment + 1];
@@ -90,12 +77,7 @@ printDPTables();
                     // calculate potential return and risk with this quantity
                     double potReturn = DP[i - 1][j - quantity * 1] + addReturn;
                     double potRisk = riskDP[i - 1][j - quantity * 1] + addRisk;
-                    if(asset.id.equalsIgnoreCase("GOOGL"))
-                    if (quantity == 14 || quantity == 16|| quantity == 12)  {
-                        System.out.println("Considering " + quantity + " units for GOOGL at investment level " + j);
-                        System.out.println("potReturn: " + potReturn + ", potRisk: " + potRisk);
-                        System.out.println("DP[i][j]: " + DP[i][j] + ", riskDP[i][j]: " + riskDP[i][j]);
-                    }
+                  
         
                     // update tables if this choice improves return without exceeding risk tolerance
                     if (potRisk <= riskTolerance && potReturn > DP[i][j]) {
@@ -114,7 +96,6 @@ printDPTables();
         for (int i = assetList.size(); i > 0; i--) {
             int quantity = choiceDP[i][remInv]; // get chosen quantity for this asset
             optimalAllocation.add(0, quantity); // add it to optimal allocation
-            System.out.println("Backtracking - Asset: " + assetList.get(i - 1).id + ", Chosen Quantity: " + quantity + ", Remaining Investment: " + remInv);
             remInv -= quantity * 1; // reduce remaining investment
         }
     
@@ -131,49 +112,7 @@ printDPTables();
         System.out.println("optimal risk: " + finalRisk);
     }
     
-    /*
-    private static List<Integer> backtracking(int totalInvestment) {
-        List<Integer> allocation = new ArrayList<>(Collections.nCopies(assetList.size(), 0));
-        int w = totalInvestment;
-    
-        for (int i = assetList.size(); i > 0; i--) {
-            // check if the asset was included, by comparing the value with the previous row
-            while (w >= assetList.get(i - 1).quantity && DP[i][w] != DP[i - 1][w]) {
-                allocation.set(i - 1, allocation.get(i - 1) + 1); // include one unit of the asset
-                w -= assetList.get(i - 1).quantity; // reduce the remaining investment
-            }
-        }
-    
-        return allocation;
-    }
-    
-    
-*/
-/* 
-    private static void printOptimalAllocation(List<Integer> allocation) {
-        System.out.println("Optimal Allocation:");
-        for (int i = 0; i < allocation.size(); i++) {
-            int units = allocation.get(i);
-            if (units > 0) {
-                Asset asset = assetList.get(i);
-                System.out.println(asset.id + ": " + units + " units");
-            }
-        }
-        double expectedReturn = calculateExpectedReturn(allocation);
-        System.out.printf("Expected Portfolio Return: %.3f\n", expectedReturn);
-    }
-    
-    private static double calculateExpectedReturn(List<Integer> allocation) {
-        double totalReturn = 0.0;
-        for (int i = 0; i < allocation.size(); i++) {
-            int units = allocation.get(i); // The number of units allocated for this asset
-            Asset asset = assetList.get(i); // The asset in question
-            double assetReturn = units * asset.expectedReturn; // The return from this asset based on the number of units allocated
-            totalReturn += assetReturn; // Accumulate the total return
-        }
-        return totalReturn; // The total expected return of the portfolio
-    }
-    */
+  
     public static List<Asset> readFromFile(String fileName) {
         List<Asset> assetsList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
