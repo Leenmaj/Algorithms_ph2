@@ -25,7 +25,7 @@ public class PortfolioAllocatorDP {
         System.out.println("Enter risk tolerance level:");
         riskTolerance = input.nextDouble();
         allocateInvestment(totalInvestment);
-printDPTables();
+        //printDPTables(); this is to the see tables contents
   
     }
     
